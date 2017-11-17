@@ -518,7 +518,11 @@ $(document).on("pageshow", ".page", function () {
                 else {
                     pad = "pad-left";
                 }
-                $('#stockists-container').append('<div class="item col-xs-6 col-lg-6 ' + pad + '"> <div class="thumbnail"> <!--<img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" />--> <div class="caption stockist-name"> <h4 class="group inner list-group-item-heading"><b>' + response[i].user_name + '</b></h4> <p class="group inner list-group-item-text stockist-desc">' + response[i].brand_name + '</p> <div class="row"> <div class="col-xs-12 col-md-6"> <p class="lead total-product"><span style="color:#F57C00">' + response[i].total_item + '</span> Products</p> </div> <div class="col-xs-12 col-md-6"> <button class="btn btn-primary order-trigger" style="width:100%" data-id="' + response[i].obe_id + '">Order</button> </div> </div> </div> </div> </div>');
+                var dis = "";
+                if (response[i].total_item == 0) {
+                    dis = "disabled";
+                }
+                $('#stockists-container').append('<div class="item col-xs-6 col-lg-6 ' + pad + '"> <div class="thumbnail"> <!--<img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" />--> <div class="caption stockist-name"> <h4 class="group inner list-group-item-heading"><b>' + response[i].user_name + '</b></h4> <p class="group inner list-group-item-text stockist-desc">' + response[i].brand_name + '</p> <div class="row"> <div class="col-xs-12 col-md-6"> <p class="lead total-product"><span style="color:#F57C00">' + response[i].total_item + '</span> Products</p> </div> <div class="col-xs-12 col-md-6"> <button class="btn btn-primary order-trigger" style="width:100%" data-id="' + response[i].obe_id + '" ' + dis + '>Order</button> </div> </div> </div> </div> </div>');
             }
             $('.order-trigger').each(function () {
                 $(this).on('click', function () {
@@ -656,15 +660,15 @@ $(document).on("pageshow", ".page", function () {
         });
     }
     if (activePage === 'add-address') {
-//        $('input[name=postcode]').on('blur', function () {
-//            $.get('http://maps.googleapis.com/maps/api/geocode/json', {
-//                region: "my"
-//                , address: $('input[name=postcode]').val()
-//            }, function (response) {
-////                response = JSON.parse(response);
-//                console.log(response);
-//            });
-//        });
+        //        $('input[name=postcode]').on('blur', function () {
+        //            $.get('http://maps.googleapis.com/maps/api/geocode/json', {
+        //                region: "my"
+        //                , address: $('input[name=postcode]').val()
+        //            }, function (response) {
+        ////                response = JSON.parse(response);
+        //                console.log(response);
+        //            });
+        //        });
     }
     if (activePage === 'agent-apply') {
         $('.apply-btn').on('click', function () {
