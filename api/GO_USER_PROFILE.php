@@ -134,8 +134,8 @@ if ($action == "network") {
             $validate_stockist_id = mysqli_query($db, "SELECT * FROM `obe_user` WHERE `obe_id` = '" . $data['obe_id'] . "'");
             
             $data_stockist = $validate_stockist_id->fetch_array();
-                
-            echo "Successfully Registered Under ". $data_stockist['user_name'];
+            
+            echo 1;
         }
     }  
 }

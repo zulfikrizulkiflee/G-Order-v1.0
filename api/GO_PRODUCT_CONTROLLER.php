@@ -17,5 +17,19 @@ if($action == "product_list"){
     }
 }
 
+if($action == "product_single"){
+    $product_id = $_GET['product-id'];
+    $sql = "SELECT * FROM obe_product_description WHERE product_id=".$product_id;
+
+    $myArray = array();
+    if ($result = $db->query($sql)) {
+
+        while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            $myArray[] = $row;
+        }
+        echo json_encode($myArray);
+    }
+}
+
 $db->close();
 ?>
