@@ -37,7 +37,6 @@ function onDeviceReady() {
     else {
         api = local_api;
     }
-
     console.log(localStorage.getItem("go_sessionID"));
     if (window.navigator.onLine == false) {
         alert("Network Undetected!");
@@ -105,7 +104,6 @@ function onDeviceReady() {
         $(this).parent().addClass("active");
         $('body').removeClass("opensidebar");
     });
-    
     $(".owl-carousel, .pswp--open, .pswp__scroll-wrap").on("swiperight", function (event) {
         event.stopPropagation();
     });
@@ -211,10 +209,13 @@ function onDeviceReady() {
                             alert("Sorry, your email has been used");
                         }
                         else {
-                            alert(response);
-                            if (response == "Successful Register") {
+                            if (response > 0) {
+                                alert("Successfully Registered");
                                 $.mobile.navigate("#login");
                                 $.mobile.loading("hide");
+                            }
+                            else {
+                                alert("Error Registering Account");
                             }
                         }
                     });
@@ -245,7 +246,6 @@ function onDeviceReady() {
     });
     $(document).on("pageshow", ".page", function () {
         $('body').removeClass("opensidebar");
-        
         var activePage = $.mobile.activePage.attr('id')
             //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
             //
@@ -525,16 +525,14 @@ function onDeviceReady() {
                 var month = new DropDown($('#month'));
                 var year = new DropDown2($('#year'));
             });
-            
             var role = (localStorage.getItem("go_sessionROLE") == "Stockist") ? "stockist" : "agent";
-            
             if (role == "agent") {
-                $('#order-history .page_title').html("My Order History"); 
-            }else{
+                $('#order-history .page_title').html("My Order History");
+            }
+            else {
                 $('#order-history .page_title').html("Order History");
             }
-
-            $.get(api + 'GO_ORDER_CONTROLLER.php?action='+role+'_order_history' + '&obe_id=' + localStorage.getItem('go_sessionID'), function (response) {
+            $.get(api + 'GO_ORDER_CONTROLLER.php?action=' + role + '_order_history' + '&obe_id=' + localStorage.getItem('go_sessionID'), function (response) {
                 $('.order-list').html("");
                 response = JSON.parse(response);
                 console.log(response);
@@ -879,22 +877,22 @@ function onDeviceReady() {
         if (activePage === 'agent-apply') {
             $('.apply-btn').on('click', function () {
                 preloaderDisplay();
-                
                 if ($('#agent-apply input[name=regstockist]').val() != '') {
                     $.get(api + 'GO_USER_PROFILE.php?action=network', {
                         obe_id: localStorage.getItem("go_sessionID")
                         , regstockist: $('#agent-apply input[name=regstockist]').val()
                     }, function (response) {
-                        if(response == 1){
+                        if (response == 1) {
                             alert("Succesfully Connected");
                             localStorage.setItem('go_sessionROLE', 'Agent');
                             $.mobile.navigate("#home");
                             location.reload();
                             $.mobile.loading("hide");
-                        }else{
+                        }
+                        else {
                             alert("Failed");
                             $.mobile.loading("hide");
-                        }  
+                        }
                     });
                 }
             });
@@ -953,25 +951,22 @@ function onDeviceReady() {
         });
     }
 }
+var lastTimeBackPress = 0;
+var timePeriodToExit = 2000;
 
-var lastTimeBackPress=0;
-var timePeriodToExit=2000;
-
-function onBackKeyDown(e){
+function onBackKeyDown(e) {
     e.preventDefault();
     e.stopPropagation();
-    if(new Date().getTime() - lastTimeBackPress < timePeriodToExit){
+    if (new Date().getTime() - lastTimeBackPress < timePeriodToExit) {
         navigator.app.exitApp();
-    }else{
-        window.plugins.toast.showWithOptions(
-            {
-                message: "Press again to exit.",
-                duration: "short", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
-                position: "bottom",
-                addPixelsY: -40  // added a negative value to move it up a bit (default 0)
-            }
-        );
-
-        lastTimeBackPress=new Date().getTime();
+    }
+    else {
+        window.plugins.toast.showWithOptions({
+            message: "Press again to exit."
+            , duration: "short", // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+            position: "bottom"
+            , addPixelsY: -40 // added a negative value to move it up a bit (default 0)
+        });
+        lastTimeBackPress = new Date().getTime();
     }
 }

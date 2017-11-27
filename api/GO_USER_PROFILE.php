@@ -3,6 +3,13 @@ header("Access-Control-Allow-Origin: *");
 include("conn.php");
 $action = $_GET['action'];
 
+if ($action == "registerToken"){
+    $token = $_GET['token'];
+    $id = $_GET['obe_id'];
+    
+    mysqli_query($db, "UPDATE obe_user SET token = '".$token."' WHERE obe_id = " .$id. "");
+}
+
 if ($action == "register") {
     $name     = $_GET['regname'];
     $callsign = $_GET['regcallsign'];
@@ -47,7 +54,7 @@ if ($action == "register") {
                 
                 mysqli_query($db, "INSERT INTO obe_network (obe_id,parent_id) VALUES (" .$id. ", '" .$data['obe_id']. "')");
                 
-                echo "Successful Register";
+                echo mysqli_insert_id($db);
             }
         }else{
             if ($stockist_regid != ''){
@@ -61,7 +68,7 @@ if ($action == "register") {
                 $result = mysqli_query($db, $sql);
             }
             
-            echo "Successful Register";
+            echo mysqli_insert_id($db);
         }
     }
 }
