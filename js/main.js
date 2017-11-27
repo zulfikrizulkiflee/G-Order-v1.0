@@ -252,6 +252,9 @@ function onDeviceReady() {
             //      GENERAL BLOCK
             //
             //\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+        if (activePage === 't&c'){
+            $("#t&c .t&c").load("t&c.html");
+        }
         if (activePage === 'add-address') {
             $('#add-form input[name=postcode]').on('blur', function () {
                 $.get('http://maps.googleapis.com/mapsapi+/geocode/json', {
